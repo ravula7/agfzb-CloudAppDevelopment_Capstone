@@ -1,4 +1,3 @@
-
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
@@ -10,7 +9,7 @@ urlpatterns = [
     # view refers to the view function
     # name the URL
     path(route='', view=views.get_dealerships, name='index'),
-    path('dealer/<int:id>/', views.get_dealer_details, name='dealer_details'),
+    path('dealer/<int:dealer_id>/', views.get_dealer_details, name='dealer_details'),
     path('dealer/<int:id>/review', views.add_review, name='add_review'),
     path(route='about/', view=views.about, name='about'),
     path(route='contact/', view=views.contact, name='contact'),
