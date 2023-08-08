@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 from .models import CarModel, CarMake, CarDealer, DealerReview, ReviewPost
 # from .restapis import related methods
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf,post_request 
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf,post_request, get_request
 #get_dealer_by_id_from_cf,
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -93,17 +93,30 @@ def get_dealerships(request):
     
         return render(request, 'djangoapp/index.html', context)
 
+def get_dealer_by_id_from_cf(url, id):
+    json_result = get_request(url, id="id")
+    print('json_result from line 54',json_result)
+
+    if json_result:
+        dealers = json_result
+        dealer_doc = dealers[0]
+        dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"],
+                                id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"], full_name=dealer_doc["full_name"], short_name = dealer_doc["short_name"],
+                                
+                                st=dealer_doc["st"], zip=dealer_doc["zip"])
+        return dealer_obj
+
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-def get_dealer_details(request, dealer_id):
+def get_dealer_details(request, id):
     if request.method == "GET":
         context = {}
         dealer_url = "https://us-east.functions.appdomain.cloud/api/v1/web/eb5102a7-2e8e-4368-aa59-44294721901c/dealership-package/get-dealership"
-        dealer = get_dealer_by_id_from_cf(dealer_url, dealer_id=id)
+        dealer = get_dealer_by_id_from_cf(dealer_url, id=id)
         context["dealer"] = dealer
     
-        review_url = "https://us-east.functions.appdomain.cloud/api/v1/web/eb5102a7-2e8e-4368-aa59-44294721901c/dealership-package/get-review/?id=1"
-        reviews = get_dealer_reviews_from_cf(review_url, dealer_id=id)
+        review_url = "https://us-east.functions.appdomain.cloud/api/v1/web/eb5102a7-2e8e-4368-aa59-44294721901c/dealership-package/get-review/"
+        reviews = get_dealer_reviews_from_cf(review_url, id=id)
         print(reviews)
         context["reviews"] = reviews
         

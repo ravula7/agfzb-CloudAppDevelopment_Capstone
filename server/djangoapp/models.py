@@ -33,13 +33,13 @@ class CarModel(models.Model):
 
     make = models.ForeignKey(CarMake, on_delete=models.CASCADE,default='django.db.models.AutoField')
     Name = models.CharField(null=False, max_length=200,default="name")
-    Dealerid = models.IntegerField(default=1,primary_key=True)
+    id = models.IntegerField(default=1,primary_key=True)
     Type = models.CharField(null=False,max_length=2000, choices=CHOICES)
     Year = models.DateField(default=now)
 
     def __str__(self):
                 return "Name: " + self.Name + "," + \
-                    "Description: " + str(self.Dealerid) + \
+                    "Description: " + str(self.id) + \
                     "Type: " + self.Type
 
                     
