@@ -15,11 +15,11 @@ CHOICES = [
 # - Any other fields you would like to include in car make model
 # - __str__ method to print a car make object
 class CarMake(models.Model):
-    Name = models.CharField(null=False,max_length=2000, default="name", )
-    Description = models.CharField(null=False, max_length=2000, default="mame")
+    Name = models.CharField(null=False,max_length=200, default="car make")
+    Description = models.CharField(null=False, max_length=500, default="description")
     def __str__(self):
-            return "Name: " + self.name + "," + \
-                "Description: " + self.description
+            return "Name: " + self.Name + "," + \
+                "Description: " + self.Description
 
 # <HINT> Create a Car Model model `class CarModel(models.Model):`:
 # - Many-To-One relationship to Car Make model (One Car Make has many Car Models, using ForeignKey field)
@@ -31,9 +31,9 @@ class CarMake(models.Model):
 # - __str__ method to print a car make object
 class CarModel(models.Model):
 
-    make=models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    Name = models.CharField(null=False, max_length=2000,default="name", )
-    Dealerid = models.IntegerField(default=0)
+    make = models.ForeignKey(CarMake, on_delete=models.CASCADE,default='django.db.models.AutoField')
+    Name = models.CharField(null=False, max_length=200,default="name")
+    Dealerid = models.IntegerField(default=1,primary_key=True)
     Type = models.CharField(null=False,max_length=2000, choices=CHOICES)
     Year = models.DateField(default=now)
 
