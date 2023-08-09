@@ -140,25 +140,25 @@ def add_review(request, id):
         if request.user.is_authenticated:
             username = request.user.username
             print(request.POST)
-            payload = dict()
+            json_payload = dict()
             car_id = request.POST["car"]
             car = CarModel.objects.get(pk=car_id)
-            payload["time"] = datetime.utcnow().isoformat()
-            payload["name"] = username
-            payload["dealership"] = id
-            payload["id"] = id
-            payload["review"] = request.POST["content"]
-            payload["purchase"] = False
+            json_payload["time"] = datetime.utcnow().isoformat()
+            json_payload["name"] = username
+            json_payload["dealership"] = id
+            json_payload["id"] = id
+            json_payload["review"] = request.POST["content"]
+            json_payload["purchase"] = False
             if "purchasecheck" in request.POST:
                 if request.POST["purchasecheck"] == 'on':
-                    payload["purchase"] = True
-            payload["purchase_date"] = request.POST["purchasedate"]
-            payload["car_make"] = car.make.name
-            payload["car_model"] = car.name
-            payload["car_year"] = int(car.year.strftime("%Y"))
+                    json_payload["purchase"] = True
+            json_payload["purchase_date"] = request.POST["purchasedate"]
+            json_payload["car_make"] = car.make.name
+            json_payload["car_model"] = car.name
+            json_payload["car_year"] = int(car.year.strftime("%Y"))
 
             new_payload = {}
-            new_payload["review"] = payload
+            new_payload["review"] = json_payload
             review_url = "https://us-east.functions.appdomain.cloud/api/v1/web/eb5102a7-2e8e-4368-aa59-44294721901c/dealership-package/get-review/"
             post_request(review_post_url, new_payload, id=id)
     return redirect("djangoapp:dealer_details", id=id)
