@@ -99,12 +99,12 @@ def get_dealer_by_id_from_cf(url, id):
     print('json_result from line 54',json_result)
 
     if json_result:
-        dealers = json_result
+        dealers = json_result[0]
 
         
         # print("line 70 restapis",json_result)
         dealer_doc = dealers
-        print("0th address element line 73",dealers["address"])
+
         dealer_obj = CarDealer(address=dealers["address"], city=dealers["city"],
                                 id=dealers["id"], lat=dealers["lat"], long=dealers["long"], full_name=dealers["full_name"],
                                 
@@ -156,9 +156,9 @@ def add_review(request, id):
                 if request.POST["purchasecheck"] == 'on':
                     json_payload["purchase"] = True
             json_payload["purchase_date"] = request.POST["purchasedate"]
-            json_payload["car_make"] = car.make.name
-            json_payload["car_model"] = car.name
-            json_payload["car_year"] = int(car.year.strftime("%Y"))
+            json_payload["car_make"] = car.make.Name
+            json_payload["car_model"] = car.Name
+            json_payload["car_year"] = int(car.Year.strftime("%Y"))
 
             new_payload = {}
             new_payload["review"] = json_payload
