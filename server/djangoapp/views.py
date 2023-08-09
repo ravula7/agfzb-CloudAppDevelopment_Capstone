@@ -95,17 +95,21 @@ def get_dealerships(request):
         return render(request, 'djangoapp/index.html', context)
 
 def get_dealer_by_id_from_cf(url, id):
-    json_result = get_request(url, id="id")
+    json_result = get_request(url, id=id)
     print('json_result from line 54',json_result)
 
     if json_result:
         dealers = json_result
-        dealer_doc = dealers[0]
-        dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"],
-                                id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"], full_name=dealer_doc["full_name"], short_name = dealer_doc["short_name"],
+
+        
+        # print("line 70 restapis",json_result)
+        dealer_doc = dealers
+        print("0th address element line 73",dealers["address"])
+        dealer_obj = CarDealer(address=dealers["address"], city=dealers["city"],
+                                id=dealers["id"], lat=dealers["lat"], long=dealers["long"], full_name=dealers["full_name"],
                                 
-                                st=dealer_doc["st"], zip=dealer_doc["zip"])
-        return dealer_obj
+                                short_name=dealers["short_name"],st=dealers["st"], zip=dealers["zip"])
+    return dealer_obj 
 
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
