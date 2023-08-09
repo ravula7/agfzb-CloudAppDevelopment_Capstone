@@ -10,8 +10,7 @@ urlpatterns = [
     # name the URL
     path(route='', view=views.get_dealerships, name='index'),
     path('dealer/<int:id>/', views.get_dealer_details, name='dealer_details'),
-    path('dealer/<int:id>/review', views.add_review, name='add_review'),
-    path(route='about/', view=views.about, name='about'),
+    path('dealer/<int:id>/review', views.add_review, name='add_review'),    path(route='about/', view=views.about, name='about'),
     path(route='contact/', view=views.contact, name='contact'),
     path('registration/', views.registration_request, name='registration'),
     path('login/', views.login_request, name='login'),
